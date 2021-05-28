@@ -74,7 +74,7 @@ hops =  """CREATE TABLE IF NOT EXISTS hops (
 );"""
 tables.append(hops)
 
-hops =  """CREATE TABLE IF NOT EXISTS yeast (
+yeast =  """CREATE TABLE IF NOT EXISTS yeast (
                 id INTEGER PRIMARY KEY,
                 name TEXT NOT NULL,
                 attenuation INTEGER NOT NULL              
