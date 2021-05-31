@@ -1,5 +1,6 @@
 import sqlite3
 from sqlite3 import Error
+from werkzeug.security import generate_password_hash, check_password_hash
 
 database = r"./database.db"
 ##### TEST #####
@@ -81,11 +82,55 @@ yeast =  """CREATE TABLE IF NOT EXISTS yeast (
 );"""
 tables.append(yeast)
 
+users = """CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY,
+                username TEXT NOT NULL,
+                passwordhash  TEXT NOT NULL,
+                UNIQUE  (username)         
+);"""
+tables.append(users)
 
+#####USERS####
+def add_user(conn, username, passwordhash):
+    cur = conn.cursor()
+    try:
+        sql = (
+            "INSERT INTO users (username, passwordhash) VALUES (?,?) "
+        )
+        cur.execute(sql,(username,passwordhash))
+        conn.commit()
+    except sqlite3.Error as err:
+        print("Error: {}".format(err))
+    else:
+        print("Added user {}.".format(username))
+    finally:
+        cur.close()
 
+def get_user_by_name(conn,username):
+    pass
 
-def create_tables(conn,tables):
-    conn=conn 
+def get_hash_for_login(conn, username):
+    cur = conn.cursor()
+    try:
+        sql = (
+            "SELECT passwordhash FROM users WHERE username = ? "
+        )
+        cur.execute(sql,(username,))
+        for row in cur:
+            (passwordhash,) = row
+            return passwordhash
+        else:
+            return None
+       
+    except sqlite3.Error as err:
+        print("Error: {}".format(err))
+    else:
+        print("Found Hash for {}.".format(username))
+    finally:
+        cur.close() 
+
+def create_tables(tables):
+    conn=create_connection(database)
     for table in tables:
         execute(conn,table)
 
@@ -101,4 +146,15 @@ if __name__ == '__main__':
     print("initializing database")
     setup()
     print("testing database")
-    test_db()
+    #test_db()
+    print("creating tables")
+    create_tables(tables)
+    conn=create_connection(database)
+    print("adding user")
+    add_user(conn,"testuser1",generate_password_hash("testpassword1"))
+    execute_statement=execute(conn,"SELECT * FROM users")
+    for (id,username,passwordhash) in execute_statement:
+        print(f"{username}")
+        if check_password_hash(get_hash_for_login(conn,"testuser1"),"testpassword1"):
+            print("password verified")
+        
