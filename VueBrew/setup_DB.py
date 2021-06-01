@@ -70,8 +70,7 @@ tables.append(fermentable)
 hops =  """CREATE TABLE IF NOT EXISTS hops (
                 id INTEGER PRIMARY KEY,
                 name TEXT NOT NULL,
-                aa INTEGER NOT NULL,
-                humidity INT NOT NULL
+                aa INTEGER NOT NULL
 );"""
 tables.append(hops)
 
@@ -133,7 +132,51 @@ def create_tables(tables):
     conn=create_connection(database)
     for table in tables:
         execute(conn,table)
+#####DATA#####
+def add_fermentable(conn, name, dbv,humidity):
+    cur = conn.cursor()
+    try:
+        sql = (
+            "INSERT INTO fermentable (name, dbv,humidity) VALUES (?,?,?) "
+        )
+        cur.execute(sql,(name,dbv,humidity))
+        conn.commit()
+    except sqlite3.Error as err:
+        print("Error: {}".format(err))
+    else:
+        print("Added fermentable {}.".format(name))
+    finally:
+        cur.close()
 
+def add_hops(conn, name, aa):
+    cur = conn.cursor()
+    try:
+        sql = (
+            "INSERT INTO hops (name, aa) VALUES (?,?) "
+        )
+        cur.execute(sql,(name,aa))
+        conn.commit()
+    except sqlite3.Error as err:
+        print("Error: {}".format(err))
+    else:
+        print("Added hop {}.".format(name))
+    finally:
+        cur.close()
+
+def add_yeast(conn, name, attenuation):
+    cur = conn.cursor()
+    try:
+        sql = (
+            "INSERT INTO yeast (name, attenuation) VALUES (?,?) "
+        )
+        cur.execute(sql,(name,attenuation))
+        conn.commit()
+    except sqlite3.Error as err:
+        print("Error: {}".format(err))
+    else:
+        print("Added yeast {}.".format(name))
+    finally:
+        cur.close()
 
 ##### SETUP ######
 def setup():
