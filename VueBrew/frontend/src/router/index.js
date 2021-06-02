@@ -1,11 +1,16 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
+import calculator from  "../views/calculator.vue";
+import login from  "../views/login.vue";
+import recipe from  "../views/recipe.vue";
+import recipes from  "../views/recipes.vue";
+import register from  "../views/register.vue";
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
+    name: "calculator",
+    component: calculator
   },
   {
     path: "/about",
@@ -16,6 +21,31 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
+  {
+      path:"/Home",
+      name:"Home",
+      component: Home
+  },
+  {
+    path:"/login",
+    name:"login",
+    component: login
+},
+{
+    path:"/register",
+    name:"register",
+    component: register
+},
+{
+    path:"/recipe",
+    name:"recipe",
+    component: recipe
+},
+{
+    path:"/recipes",
+    name:"recipes",
+    component: recipes
+}
 ];
 
 const router = createRouter({
