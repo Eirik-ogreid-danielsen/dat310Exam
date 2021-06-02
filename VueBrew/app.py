@@ -13,6 +13,7 @@ CORS(app)
 DATABASE = "database.db"
 app.secret_key = "they_serve_pints_here"
 
+#registration and login
 def valid_login(username, password):
     conn = get_db()
     hash = get_hash_for_login(conn, username)
@@ -28,7 +29,7 @@ def get_user_id(username):
     for row in cur:
         id =  row
         return id
-
+#
 def get_db():
     if not hasattr(g,"_database"):
         g._database = sqlite3.connect(DATABASE)
@@ -108,8 +109,6 @@ def login_user():
     if request.method == "POST":
         username =request.json["username"]
         password = request.json["password"]
-        print(username)
-        print(password)
         if valid_login(username,password):
             userID = get_user_id(username)
             user = {
@@ -120,6 +119,12 @@ def login_user():
         else:
             return "DENIED!!!!!!!"
 
+#@app.route("register", methods=["GET","POST"])
+#@cross_origin()
+#def create_user():
+#    if request.method  == "POST":
+#        username =request.json["username"]
+#        password = request.json["password"]
 
 
 if __name__ == "__main__":
