@@ -73,8 +73,54 @@ export default createStore({
         let verifiedUser = await response.json();
         commit("logInUser",verifiedUser.username)
      },
-     
-
+     async  fetchFermentables({ commit }) {
+        fetch('http://127.0.0.1:5000/fermentables', {
+            method:"GET",
+            headers: {
+                "content-type":"application/json"
+            }
+         })
+         .then(resp => resp.json())
+         .then(data => {
+             let fermentables=data;
+             commit("setFermentables",fermentables)
+         })
+         .catch(error => {
+             console.log(error);
+         })
+     },
+     async   fetchHops({ commit }) {
+        fetch('http://127.0.0.1:5000/hops', {
+            method:"GET",
+            headers: {
+                "content-type":"application/json"
+            }
+         })
+         .then(resp => resp.json())
+         .then(data => {
+             let hops=data;
+             commit("setHops",hops)
+         })
+         .catch(error => {
+             console.log(error);
+         })
+    },
+     async   fetchYeasts({ commit }) {
+        fetch('http://127.0.0.1:5000/yeasts', {
+            method:"GET",
+            headers: {
+                "content-type":"application/json"
+            }
+         })
+         .then(resp => resp.json())
+         .then(data => {
+             let yeasts=data;
+             commit("setYeasts",yeasts)
+         })
+         .catch(error => {
+             console.log(error);
+         })
+    },
   },
   getters: {
     getUser:  (state) => state.currentUser,
