@@ -1,5 +1,11 @@
 <template>
-  <h2>hello {{ user }}</h2>
+<div>
+    <h2>hello {{ user }}</h2>
+    <select>
+        <option value="">Select a Fermentable</option>
+        <option v-for="fermentable in fermentables "  v-bind:key="fermentable.id" :value="fermentable.name">{{fermentable.name}}</option>
+    </select>
+</div>  
 </template>
 
 <script>
@@ -7,7 +13,8 @@ import {mapGetters} from "vuex";
 export default {
     
     computed: {
-        ...mapGetters({user: "getUser"})
+        ...mapGetters({user: "getUser"}),
+        ...mapGetters({fermentables:"getFermentables"})
     },
 
     methods: {
@@ -29,6 +36,7 @@ export default {
     },
     created() {
         this.getFermentables()
+        this.$store.dispatch("fetchFermentables")
     }
 
 }
