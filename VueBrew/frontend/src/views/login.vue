@@ -40,6 +40,7 @@ export default {
     Login() {
       this.$store.dispatch("Login", this.newUser);
     },
+
     
   },
 

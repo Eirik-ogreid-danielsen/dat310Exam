@@ -1,4 +1,5 @@
 <template>
+<div id ="mainview">
   <div id="nav">
     <router-link to="/">Calculator</router-link> |
     <router-link to="/login">login</router-link> |
@@ -6,6 +7,7 @@
     <router-link to="register">Register</router-link>
   </div>
   <router-view />
+</div>
 </template>
 
 <style>

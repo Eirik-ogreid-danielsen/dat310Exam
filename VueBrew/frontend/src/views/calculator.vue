@@ -1,16 +1,32 @@
 <template>
 <div>
     <h2>hello {{ user }}</h2>
-    <select>
-        <option value="">Select a Fermentable</option>
-        <option v-for="fermentable in fermentables "  v-bind:key="fermentable.id" :value="fermentable.name">{{fermentable.name}}</option>
-    </select>
+    <FermentablesCalc />
+    <HopsCalc />
+    <YeastCalc />
+    
 </div>  
 </template>
 
 <script>
 import {mapGetters} from "vuex";
+import FermentablesCalc from '../components/FermentablesCalc.vue'
+import HopsCalc from '../components/HopsCalc.vue'
+import YeastCalc from '../components/YeastCalc.vue'
+
+
+
 export default {
+    
+    name:"Calculator",
+
+    components: {
+
+        FermentablesCalc,
+        HopsCalc,
+        YeastCalc
+    },
+    
     
     computed: {
         ...mapGetters({user: "getUser"}),
@@ -35,8 +51,11 @@ export default {
         }
     },
     created() {
-        this.getFermentables()
+        //this.getFermentables()
+        console.log("fetchingFermentables");
         this.$store.dispatch("fetchFermentables")
+        this.$store.dispatch("fetchHops")
+        this.$store.dispatch("fetchYeasts")
     }
 
 }
