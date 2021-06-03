@@ -9,9 +9,14 @@ export default createStore({
       recipes:[],
       selectedFermentable: {
              name:"",
-             ammount: '',
+             amount: 0,
          },
     selectedYeast:'',
+    selectedHop:{
+        name:"",
+        amount:0,
+        time:0,
+    },
     recipe: {
             id:'',
             user:'',
@@ -52,8 +57,37 @@ export default createStore({
     setYeasts(state,yeasts) {
             state.yeasts = yeasts
         },
+    setSelectedFermentableName(state,name){
+        state.selectedFermentable.name =name
+    },
+    setSelectedFermentableAmount(state,amount){
+        state.selectedFermentable.amount = amount
+    },
+    setCurrentRecipeFermentables(state,fermentable) {
+        console.log(state.currentRecipe.fermentables);
+        console.log(fermentable);
+        state.currentRecipe.fermentables.push(fermentable)
+        console.log(state.currentRecipe.fermentables);
+    },
+    setSelecteHopName(state,name){
+        state.selectedHop.name=name
+    },
+    setSelecteHopAmount(state,amount){
+        state.selectedHop.amount=amount
+    },
+    setSelecteHopTime(state,time){
+        state.selectedHop.time=time
+    },
+    setCurrentRecipeHops(state,selectedHop){
+        state.currentRecipe.hops.push(selectedHop)
+    },
+    setCurrentRecipeYeast(state,selectedYeast){
+        state.currentRecipe.yeast=selectedYeast
+    }
+    
   },
   actions: {
+
     async Login({ commit }, user) {
         let baseURL = "http://127.0.0.1:5000/";
         let response = await fetch(baseURL+"login", {
@@ -73,6 +107,7 @@ export default createStore({
         let verifiedUser = await response.json();
         commit("logInUser",verifiedUser.username)
      },
+
      async  fetchFermentables({ commit }) {
         fetch('http://127.0.0.1:5000/fermentables', {
             method:"GET",
@@ -89,6 +124,7 @@ export default createStore({
              console.log(error);
          })
      },
+
      async   fetchHops({ commit }) {
         fetch('http://127.0.0.1:5000/hops', {
             method:"GET",
@@ -105,6 +141,7 @@ export default createStore({
              console.log(error);
          })
     },
+
      async   fetchYeasts({ commit }) {
         fetch('http://127.0.0.1:5000/yeasts', {
             method:"GET",
@@ -121,12 +158,45 @@ export default createStore({
              console.log(error);
          })
     },
+    selectFermentableName({commit}, fermentable){
+        commit("setSelectedFermentableName",fermentable) 
+    },
+    selectFermentableAmount({commit}, amount) {
+        commit("setSelectedFermentableAmount",amount)
+    },
+    addFermentable({commit},selectedFermentable){
+        
+        commit("setCurrentRecipeFermentables",selectedFermentable)
+    },
+    selectHopName({commit},hop){
+        commit("setSelecteHopName",hop)
+    },
+    selectHopAmount({commit},amount){
+        commit("setSelecteHopAmount",amount)
+    },
+    selectHopTime({commit},time){
+        commit("setSelecteHopTime",time)
+    },
+    addHop({commit},hop){
+        commit("setCurrentRecipeHops",hop)
+    },
+    addYeast({commit},yeast){
+        commit("setCurrentRecipeYeast",yeast)
+    }
+        
   },
   getters: {
     getUser:  (state) => state.currentUser,
     getFermentables: (state) => state.fermentables,
     getHops: (state) => state.hops,
-    getYeasts: (state) => state.yeasts
+    getYeasts: (state) => state.yeasts,
+    getSelectedFermentable:(state) => state.selectedFermentable,
+    getCurrentRecipe:(state) => state.currentRecipe,
+    getCurrentRecipeFermentables:(state) => state.currentRecipe.fermentables,
+    getCurrentRecipeHops:(state) => state.currentRecipe.hops,
+    getSelectedHop:(state)=> state.selectedHop,
+    getCurrentRecipeYeast:(state) => state.currentRecipe.yeast
+
   },
   modules: {},
 });
