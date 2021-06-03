@@ -1,4 +1,5 @@
-from werkzeug.security import check_password_hash
+from setup_DB import add_user
+from werkzeug.security import check_password_hash, generate_password_hash
 from setup_DB import get_hash_for_login
 from setup_DB import  *
 from flask import Flask, request
@@ -29,7 +30,9 @@ def get_user_id(username):
     for row in cur:
         id =  row
         return id
-#
+
+
+#######boilerplate######
 def get_db():
     if not hasattr(g,"_database"):
         g._database = sqlite3.connect(DATABASE)
@@ -119,12 +122,16 @@ def login_user():
         else:
             return "DENIED!!!!!!!"
 
-#@app.route("register", methods=["GET","POST"])
-#@cross_origin()
-#def create_user():
-#    if request.method  == "POST":
-#        username =request.json["username"]
-#        password = request.json["password"]
+@app.route("/register", methods=["GET","POST"])
+@cross_origin()
+def create_user():
+    if request.method  == "POST":
+        username =request.json["username"]
+        password = request.json["password"]
+    conn=get_db()
+    response = add_user(conn,username,generate_password_hash(password) )
+    return json.dumps(response)
+        
 
 
 if __name__ == "__main__":
