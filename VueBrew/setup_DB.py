@@ -89,6 +89,43 @@ users = """CREATE TABLE IF NOT EXISTS users (
 );"""
 tables.append(users)
 
+recipe ="""CREATE TABLE IF NOT EXISTS recipes (
+                id INTEGER PRIMARY KEY,
+                author TEXT NOT NULL,
+                name TEXT NOT NULL,
+                yeast TEXT NOT NULL,
+                mashtemp INT NOT NULL,
+                mashtime  INT NOT NULL,
+                mashwater INT NOT NULL,
+                strikewater INT NOT NULL,
+                boiltime INT NOT NULL,
+                preboilvolume INT NOT NULL,
+                postboilvolume INT NOT NULL,
+                UNIQUE (name),
+                FOREIGN KEY (author) REFERENCES users (username)
+);"""
+tables.append(recipe)
+
+recipeFermentables = """CREATE TABLE IF NOT EXISTS recipeFermentables (
+                id INTEGER PRIMARY KEY,
+                recipeid INT NOT NULL,
+                name  TEXT NOT NULL,
+                amount INT NOT NULL,
+                FOREIGN KEY (recipeid) REFERENCES recipes (id)       
+);"""
+tables.append(recipeFermentables)
+
+recipeHops = """CREATE TABLE IF NOT EXISTS recipehops (
+                id INTEGER PRIMARY KEY,
+                recipeid INT NOT NULL,
+                name TEXT NOT NULL,
+                amount  INT NOT NULL,
+                time INT NOT NULL,
+                FOREIGN KEY (recipeid) REFERENCES recipes (id)
+);"""
+tables.append(recipeHops)
+
+
 #####USERS####
 def add_user(conn, username, passwordhash):
     cur = conn.cursor()
@@ -99,9 +136,10 @@ def add_user(conn, username, passwordhash):
         cur.execute(sql,(username,passwordhash))
         conn.commit()
     except sqlite3.Error as err:
-        print("Error: {}".format(err))
+        return err
     else:
         print("Added user {}.".format(username))
+        return "ok"
     finally:
         cur.close()
 
@@ -178,6 +216,87 @@ def add_yeast(conn, name, attenuation):
     finally:
         cur.close()
 
+def add_recipe(conn,name,author,fermentables,hops,yeast,mashtemp,mashwater,mashtime,strikewater,boiltime,preboilvolume,postboilvolume):
+    cur = conn.cursor()
+    try:
+        sql = (
+            "INSERT INTO recipes (name,author,yeast,mashtemp,mashwater,mashtime,strikewater,boiltime,preboilvolume,postboilvolume) VALUES (?,?,?,?,?,?,?,?,?,?) "
+        )
+        cur.execute(sql,(name,author,yeast,mashtemp,mashwater,mashtime,strikewater,boiltime,preboilvolume,postboilvolume))
+        conn.commit()
+        id=get_recipe_id(conn,name)
+        add_recipe_fermentables(conn,fermentables,id)
+        add_recipe_hops(conn,hops,id)
+    except sqlite3.Error as err:
+        print(sql)
+        print("Error: {}".format(err))
+        return err
+    else:
+        return "success!"
+    finally:
+        cur.close()
+
+def get_recipe_id(conn,name):
+    cur = conn.cursor()
+    try:
+        sql = (
+            "SELECT * FROM recipes WHERE name = ? "
+        )
+        cur.execute(sql,(name,))
+        conn.commit()
+        for row in cur:
+            print("id")
+            print(row[0])
+            (id) = row[0]
+            return id
+    except sqlite3.Error as err:
+        print(sql)
+        print("Error: {}".format(err))
+    else:
+        return id
+    finally:
+        cur.close()
+    return None
+
+def add_recipe_fermentables(conn,fermentables,id):
+    cur = conn.cursor()
+    try:
+        for fermentable in fermentables:
+            name=fermentable["name"]
+            print(name)
+            amount=fermentable["amount"]
+            print(amount)
+            sql = (
+                "INSERT INTO recipeFermentables (recipeid,name, amount) VALUES (?,?,?) "
+            )
+            cur.execute(sql,(id,name,amount))
+            conn.commit()
+    except sqlite3.Error as err:
+        return err
+    else:
+        return "success!"
+    finally:
+        cur.close()
+
+def add_recipe_hops(conn,hops,id):
+    cur = conn.cursor()
+    try:
+        for hop in hops:
+            name=hop["name"]
+            amount=hop["amount"]
+            time=hop["amount"]
+            sql = (
+                "INSERT INTO recipeFermentables (recipeid,name, amount,time) VALUES (?,?,?,?) "
+            )
+            cur.execute(sql,(id,name,amount,time))
+            conn.commit()
+    except sqlite3.Error as err:
+        return err
+    else:
+        return "success!"
+    finally:
+        cur.close()
+
 ##### SETUP ######
 def setup():
     conn = create_connection(database)
@@ -199,5 +318,6 @@ if __name__ == '__main__':
     for (id,username,passwordhash) in execute_statement:
         print(f"{username}")
         if check_password_hash(get_hash_for_login(conn,"testuser1"),"testpassword1"):
-            print("password verified")
+           print("password verified")
+    
         

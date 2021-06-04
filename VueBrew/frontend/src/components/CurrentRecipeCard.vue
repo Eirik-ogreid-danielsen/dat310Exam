@@ -1,5 +1,7 @@
 <template>
   <div class="recipeContainer">
+      <label>Recipe Name: </label>
+      <input v-model="name"/>
       {{currentRecipe}}
       <button class="save" @click="SaveRecipe()">Save</button>
   </div>
@@ -8,6 +10,13 @@
 <script>
 import {mapGetters} from "vuex";
 export default {
+
+    data() {
+        return{
+            name:'', 
+        }
+    },
+
  computed:{
     ...mapGetters({currentRecipe:"getCurrentRecipe"}),
      ...mapGetters({ user: "getUser" }),
@@ -24,6 +33,7 @@ export default {
                  'Content-Type': "application/json",
                  },
                 body: JSON.stringify({
+                    name:this.name,
                     user:currentRecipe.user,
                     fermentables:currentRecipe.fermentables,
                     hops:currentRecipe.hops,
@@ -33,7 +43,8 @@ export default {
                     mashwater:currentRecipe.mashwater,
                     strikewater:currentRecipe.strikewater,
                     boiltime:currentRecipe.boiltime,
-                    postBoilVolume:currentRecipe.postBoilVolume,
+                    postboilvolume:currentRecipe.postboilvolume,
+                    preboilvolume:currentRecipe.preboilvolume,
                 }),
              });
              console.log(response);
