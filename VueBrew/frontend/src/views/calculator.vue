@@ -62,6 +62,7 @@ export default {
         this.$store.dispatch("fetchFermentables")
         this.$store.dispatch("fetchHops")
         this.$store.dispatch("fetchYeasts")
+        this.$store.dispatch("fetchRecipes")
     }
 
 }

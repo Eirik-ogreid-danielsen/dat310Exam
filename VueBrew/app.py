@@ -164,6 +164,11 @@ def send_yeasts():
     yeasts = get_yeasts()
     return json.dumps(yeasts)
 
+@app.route('/recipes', methods=["GET"])
+def send_recipes():
+    recipes = get_recipes()
+    return json.dumps(recipes)
+
 @app.route("/login", methods=["GET", "POST"])
 @cross_origin()
 def login_user():

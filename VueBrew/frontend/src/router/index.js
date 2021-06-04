@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import calculator from  "../views/calculator.vue";
 import login from  "../views/login.vue";
-import recipe from  "../views/recipe.vue";
+
 import recipes from  "../views/recipes.vue";
 import register from  "../views/register.vue";
 
@@ -36,16 +36,18 @@ const routes = [
     name:"register",
     component: register
 },
-{
-    path:"/recipe",
-    name:"recipe",
-    component: recipe
-},
+
 {
     path:"/recipes",
     name:"recipes",
     component: recipes
+},
+{
+    path:"/recipe",
+    name:"recipe",
+    component: () => import("../views/recipe.vue")
 }
+
 ];
 
 const router = createRouter({

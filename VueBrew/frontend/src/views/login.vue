@@ -31,7 +31,7 @@ export default {
         username: "",
         password: "",
       },
-    };
+    }
   },
   computed: {
     ...mapGetters({ user: "getUser" }),

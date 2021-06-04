@@ -31,7 +31,7 @@ export default createStore({
             postBoilVolume:'',
          },
     currentRecipe: {
-            id:'',
+            name:'',
             user:'',
             fermentables:[],
             hops:[],
@@ -103,13 +103,14 @@ export default createStore({
         state.currentRecipe.preboilvolume=preboilvolume
     },
     setCurrentRecipePostBoilVolume(state,postboilvolume){
-        console.log(postboilvolume);
         state.currentRecipe.postboilvolume=postboilvolume
     },
     setCurrentRecipeBoilTime(state,boiltime){
-        console.log(boiltime);
         state.currentRecipe.boiltime=boiltime
     },
+    setRecipes(state,recipes){
+        state.recipes=recipes
+    }
     
   },
   actions: {
@@ -168,7 +169,23 @@ export default createStore({
          })
     },
 
-     async   fetchYeasts({ commit }) {
+     async   fetchRecipes({ commit }) {
+        fetch('http://127.0.0.1:5000/recipes', {
+            method:"GET",
+            headers: {
+                "content-type":"application/json"
+            }
+         })
+         .then(resp => resp.json())
+         .then(data => {
+             let recipes=data;
+             commit("setRecipes",recipes)
+         })
+         .catch(error => {
+             console.log(error);
+         })
+    },
+    async   fetchYeasts({ commit }) {
         fetch('http://127.0.0.1:5000/yeasts', {
             method:"GET",
             headers: {
@@ -247,8 +264,9 @@ export default createStore({
     getCurrentRecipeFermentables:(state) => state.currentRecipe.fermentables,
     getCurrentRecipeHops:(state) => state.currentRecipe.hops,
     getSelectedHop:(state)=> state.selectedHop,
-    getCurrentRecipeYeast:(state) => state.currentRecipe.yeast
-    
+    getCurrentRecipeYeast:(state) => state.currentRecipe.yeast,
+    getRecipes:(state) => state.recipes,
+   
   },
   modules: {},
 });
