@@ -38,7 +38,11 @@ export default {
             this.$store.dispatch("selectFermentableName",this.selected)
             this.$store.dispatch("selectFermentableAmount",this.amount)
             console.log(this.currentRecipeFermentables);
-            this.$store.dispatch("addFermentable",this.selectedFermentable)
+            let fermentable = {
+                name: this.selected,
+                amount: this.amount
+            }
+            this.$store.dispatch("addFermentable",fermentable)
         },
 
        created() {

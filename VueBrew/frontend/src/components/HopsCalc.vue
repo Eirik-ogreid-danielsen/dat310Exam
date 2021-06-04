@@ -40,7 +40,12 @@ export default {
             this.$store.dispatch("selectHopName",this.selected)
             this.$store.dispatch("selectHopAmount",this.amount)
             this.$store.dispatch("selectHopTime",this.time)
-            this.$store.dispatch("addHop",this.selectedHop)
+           let  hop={
+                name: this.selected,
+                amount:this.amount,
+                time:this.time
+            }
+            this.$store.dispatch("addHop",hop)
         },
 
        async created() {

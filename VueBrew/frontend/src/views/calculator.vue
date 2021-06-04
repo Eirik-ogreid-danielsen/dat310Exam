@@ -4,6 +4,8 @@
     <FermentablesCalc />
     <HopsCalc />
     <YeastCalc />
+    <WaterCalc />
+    <CurrentRecipeCard />
     
 </div>  
 </template>
@@ -13,6 +15,8 @@ import {mapGetters} from "vuex";
 import FermentablesCalc from '../components/FermentablesCalc.vue'
 import HopsCalc from '../components/HopsCalc.vue'
 import YeastCalc from '../components/YeastCalc.vue'
+import WaterCalc from '../components/WaterCalc.vue'
+import CurrentRecipeCard from '../components/CurrentRecipeCard.vue'
 
 
 
@@ -24,7 +28,9 @@ export default {
 
         FermentablesCalc,
         HopsCalc,
-        YeastCalc
+        YeastCalc,
+        WaterCalc,
+        CurrentRecipeCard
     },
     
     

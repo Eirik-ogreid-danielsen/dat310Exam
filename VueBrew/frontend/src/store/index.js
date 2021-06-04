@@ -41,7 +41,7 @@ export default createStore({
             mashwater:'',
             strikewater:'',
             boiltime:'',
-            postBoilVolume:'',
+            postboilvolume:'',
          },
     },
   mutations: {
@@ -83,7 +83,33 @@ export default createStore({
     },
     setCurrentRecipeYeast(state,selectedYeast){
         state.currentRecipe.yeast=selectedYeast
-    }
+    },
+    setCurrentRecipeUser(state,user){
+        state.currentRecipe.user=user
+    },
+    setCurrentRecipeMashTemp(state,mashtemp){
+        state.currentRecipe.mashtemp=mashtemp
+    },
+    setCurrentRecipeMashTime(state,mashtime){
+        state.currentRecipe.mashtemp=mashtime
+    },
+    setCurrentRecipeMashWater(state,mashwater){
+        state.currentRecipe.mashwater=mashwater
+    },
+    setCurrentRecipeStrikeWater(state,strikewater){
+        state.currentRecipe.strikewater=strikewater
+    },
+    setCurrentRecipePreBoilVolume(state,preboilvolume){
+        state.currentRecipe.preboilvolume=preboilvolume
+    },
+    setCurrentRecipePostBoilVolume(state,postboilvolume){
+        console.log(postboilvolume);
+        state.currentRecipe.postboilvolume=postboilvolume
+    },
+    setCurrentRecipeBoilTime(state,boiltime){
+        console.log(boiltime);
+        state.currentRecipe.boiltime=boiltime
+    },
     
   },
   actions: {
@@ -182,7 +208,33 @@ export default createStore({
     },
     addYeast({commit},yeast){
         commit("setCurrentRecipeYeast",yeast)
-    }
+    },
+    addRecipeAuthor({commit},user){
+        commit("setCurrentRecipeUser",user)
+    },
+    addRecipeMashTemp({commit},mashtemp){
+        commit("setCurrentRecipeMashTemp",mashtemp)
+    },
+    addRecipeMashTime({commit},mashtime){
+        commit("setCurrentRecipeMashTime",mashtime)
+    },
+    addRecipeMashWater({commit},mashwater){
+        commit("setCurrentRecipeMashWater",mashwater)
+    }, 
+    addRecipeStrikeWater({commit},strikewater){
+        commit("setCurrentRecipeStrikeWater",strikewater)
+    }, 
+    addRecipePreBoilVolume({commit},preboilvolume){
+        commit("setCurrentRecipePreBoilVolume",preboilvolume)
+    }, 
+    addRecipePostBoilVolume({commit},postboilvolume){
+        console.log(postboilvolume);
+        commit("setCurrentRecipePostBoilVolume",postboilvolume)
+    }, 
+    addRecipeBoilTime({commit},boiltime){
+        console.log(boiltime);
+        commit("setCurrentRecipeBoilTime",boiltime)
+    }, 
         
   },
   getters: {
@@ -196,7 +248,7 @@ export default createStore({
     getCurrentRecipeHops:(state) => state.currentRecipe.hops,
     getSelectedHop:(state)=> state.selectedHop,
     getCurrentRecipeYeast:(state) => state.currentRecipe.yeast
-
+    
   },
   modules: {},
 });
