@@ -2,7 +2,7 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
-      currentUser: " ",
+      currentUser: "Not Logged In ",
       fermentables:[],
       hops:[],
       yeasts:[],
@@ -133,6 +133,9 @@ export default createStore({
         console.log(response);
         let verifiedUser = await response.json();
         commit("logInUser",verifiedUser.username)
+     },
+     LogOut({commit}){
+         commit("logInUser","Not Logged In")
      },
 
      async  fetchFermentables({ commit }) {

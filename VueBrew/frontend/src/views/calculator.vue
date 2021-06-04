@@ -1,12 +1,16 @@
 <template>
 <div>
-    <h2>hello {{ user }}</h2>
-    <FermentablesCalc />
-    <HopsCalc />
-    <YeastCalc />
-    <WaterCalc />
-    <CurrentRecipeCard />
-    
+    <div class="content">
+        <div id=ContentContainer>
+        <FermentablesCalc />
+        <HopsCalc />
+        <YeastCalc />
+        <WaterCalc />
+        </div>
+        <div class=RecipeContainer>
+        <CurrentRecipeCard />
+        </div>
+        </div>
 </div>  
 </template>
 
@@ -70,5 +74,15 @@ export default {
 
 
 <style>
+.content{
+     display: grid;
+    place-items: center;
+    grid-template-columns: auto auto;
+}
+#ContentContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
 </style>

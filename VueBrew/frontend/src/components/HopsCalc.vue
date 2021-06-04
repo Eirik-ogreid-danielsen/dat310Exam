@@ -57,5 +57,7 @@ export default {
 </script>
 
 <style>
-
+#selectedHops{
+    list-style-type: none;
+}
 </style>

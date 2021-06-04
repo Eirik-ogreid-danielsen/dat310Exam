@@ -26,5 +26,7 @@ export default {
 </script>
 
 <style>
-
+    #allRecipes{
+         list-style-type: none;
+    }
 </style>

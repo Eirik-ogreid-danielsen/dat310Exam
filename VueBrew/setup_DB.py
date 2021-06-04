@@ -282,11 +282,12 @@ def add_recipe_hops(conn,hops,id):
     cur = conn.cursor()
     try:
         for hop in hops:
+            print(hop)
             name=hop["name"]
             amount=hop["amount"]
             time=hop["amount"]
             sql = (
-                "INSERT INTO recipeFermentables (recipeid,name, amount,time) VALUES (?,?,?,?) "
+                "INSERT INTO recipeHops (recipeid,name, amount,time) VALUES (?,?,?,?) "
             )
             cur.execute(sql,(id,name,amount,time))
             conn.commit()

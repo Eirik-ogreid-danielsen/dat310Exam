@@ -1,5 +1,5 @@
 <template>
-  <div class="calcContainer">
+  <div id="CalcContainer">
         <div id="mashInstructions">
             <h3>Mash</h3>
             <label>Mashwater</label>

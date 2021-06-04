@@ -108,6 +108,7 @@ def get_recipe_hops(id):
     cur.execute(sql,(id,))
     hops = []
     for row in cur:
+        print(row)
         hop={"name":row[2],"amount":row[3],"time":row[4]}
         print(hop)
         hops.append(hop)
@@ -124,6 +125,7 @@ def get_recipes():
         print(row[0])
         fermentables=get_recipe_fermentables(row[0])
         print(fermentables)
+        print("getting hops")
         hops=get_recipe_hops(row[0])
         print(hops)
         recipe ={
@@ -192,8 +194,8 @@ def create_user():
         username =request.json["username"]
         password = request.json["password"]
     conn=get_db()
-    response = add_user(conn,username,generate_password_hash(password) )
-    return json.dumps(response)
+    add_user(conn,username,generate_password_hash(password) )
+    return "ok"
 
 @app.route("/saveRecipe",methods=["GET","POST"])
 @cross_origin()
